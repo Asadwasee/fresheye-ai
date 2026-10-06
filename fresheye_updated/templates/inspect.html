@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}FreshEye AI — Inspect{% endblock %}
+{% block body_class %}page-inspect{% endblock %}
+
+{% block content %}
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="kicker">Computer vision · Retrieval-augmented advice</p>
+      <h1>Know if it's fresh<br>before you take a bite.</h1>
+      <p class="lede">FreshEye AI pairs a trained YOLO classifier with a food-safety
+      knowledge base to inspect one photo or a whole batch at once — then
+      explains its reasoning like a produce inspector would, per item.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#inspectStart">Inspect photos</a>
+        <a class="btn btn-ghost" href="{{ url_for('chat_page') }}">Ask a question instead</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="scan-frame">
+        <div class="scan-line"></div>
+        <svg viewBox="0 0 200 200" class="fruit-outline">
+          <circle cx="100" cy="112" r="70" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M100 42 C 95 28, 108 18, 122 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M96 40 C 90 30, 78 30, 72 38" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="corner c1"></div><div class="corner c2"></div>
+        <div class="corner c3"></div><div class="corner c4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSPECT (single or multiple images) ============ -->
+  <section class="wrap inspect-section" id="inspectStart">
+    <div class="inspect-head">
+      <h2>Inspect one photo, or a whole batch</h2>
+      <p class="panel-desc">Upload one photo, or select several at once —
+      each image gets its own classification, confidence score, and
+      tailored advice (eat, use soon, or discard).</p>
+    </div>
+
+    <div class="dropzone" id="imageDropzone">
+      <input type="file" id="imageInput" accept="image/*" multiple hidden>
+      <div class="dropzone-inner" id="dropzoneInner">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <p><strong>Drop one or more photos</strong> or click to browse</p>
+        <p class="hint">JPG, PNG or WEBP · select multiple files to batch-inspect</p>
+      </div>
+    </div>
+    <div class="dropzone-error" id="imageDropzoneError" hidden></div>
+
+    <div class="selected-row" id="selectedRow" hidden>
+      <div class="selected-thumbs" id="selectedThumbs"></div>
+      <div class="selected-actions">
+        <span class="selected-count" id="selectedCount"></span>
+        <button class="btn btn-ghost" id="clearSelectionBtn" type="button">Clear</button>
+        <button class="btn btn-primary" id="runImageBtn" type="button">Run inspection</button>
+      </div>
+    </div>
+
+    <div class="results-grid" id="imageResultCol">
+      <div class="empty-state">
+        <p>Results for each photo will appear here once you run an inspection.</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inspect.js') }}"></script>
+{% endblock %}

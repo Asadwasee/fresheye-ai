@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}FreshEye AI — Ask FreshEye{% endblock %}
+{% block body_class %}page-chat{% endblock %}
+
+{% block content %}
+  <section class="chat-app wrap">
+
+    <aside class="chat-rail">
+      <p class="chat-rail-kicker">Knowledge assistant</p>
+      <h1>Ask FreshEye</h1>
+      <p class="chat-rail-desc">Answered from the food-safety knowledge base
+      — storage windows, spoilage signs, and what's still safe to use.</p>
+
+      <div class="chat-rail-suggestions">
+        <p class="rail-label">Try asking</p>
+        <button class="chip-btn" data-q="How should I store bananas so they last longer?">Storing bananas</button>
+        <button class="chip-btn" data-q="What are the signs a tomato has gone bad?">Signs a tomato is bad</button>
+        <button class="chip-btn" data-q="Is it safe to cut mold off a strawberry and eat the rest?">Cutting mold off fruit</button>
+        <button class="chip-btn" data-q="What temperature should I keep my fridge for produce?">Ideal fridge temperature</button>
+      </div>
+
+      <a class="btn btn-ghost btn-block" href="{{ url_for('inspect_page') }}">Inspect a photo instead →</a>
+    </aside>
+
+    <div class="chat-console">
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-msg chat-msg-bot">
+          <p>Hello — I'm the FreshEye knowledge assistant. Ask me anything
+          about produce freshness, storage, or food safety.</p>
+        </div>
+      </div>
+      <form class="chat-input-row" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask about storage, spoilage signs, shelf life…" autocomplete="off">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

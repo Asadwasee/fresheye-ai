@@ -1,0 +1,24 @@
+# --- Python ---
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# --- Environment / secrets ---
+.env
+
+# --- App-generated data (rebuilt automatically, don't commit) ---
+chroma_db/
+static/uploads/*
+!static/uploads/.gitkeep
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log

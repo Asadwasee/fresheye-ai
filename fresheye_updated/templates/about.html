@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}FreshEye AI — About{% endblock %}
+{% block body_class %}page-about{% endblock %}
+
+{% block content %}
+
+  <section class="wrap about-hero">
+    <span class="kicker">How FreshEye AI works</span>
+    <h1>Point a camera at your produce. Get a straight answer on whether it's still good.</h1>
+    <p>FreshEye AI pairs a computer-vision model trained to recognize fruit
+    freshness with a food-safety knowledge base, so every verdict comes
+    with a real, cited reason — not just a label.</p>
+  </section>
+
+  <section class="wrap about-section">
+    <h2>The end-to-end flow</h2>
+    <p class="section-desc">What actually happens between you uploading a
+    photo (or asking a question) and getting an answer back.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <span class="step-num">1</span>
+        <h3>Create an account</h3>
+        <p>A quick sign-up (name, email, password) — this is what lets
+        your inspections and conversations be saved and found again later
+        in your own History.</p>
+      </div>
+      <div class="flow-step">
+        <span class="step-num">2</span>
+        <h3>Upload a photo, or just ask</h3>
+        <p>Use <strong>Inspect</strong> or the <strong>AI Agent</strong>
+        page for a photo, or skip straight to <strong>Ask FreshEye</strong>
+        if you just have a storage or food-safety question.</p>
+      </div>
+      <div class="flow-step">
+        <span class="step-num">3</span>
+        <h3>The vision model classifies it</h3>
+        <p>A YOLO model trained on fresh vs. spoiled produce identifies the
+        item and returns a label with a confidence score — in about a
+        second.</p>
+      </div>
+      <div class="flow-step">
+        <span class="step-num">4</span>
+        <h3>Relevant knowledge is retrieved</h3>
+        <p>The label is used to search a food-safety knowledge base
+        (storage windows, spoilage signs, temperature guidance) for the
+        passages actually relevant to that item.</p>
+      </div>
+      <div class="flow-step">
+        <span class="step-num">5</span>
+        <h3>An LLM writes the verdict</h3>
+        <p>A language model combines the classification and the retrieved
+        knowledge into a plain-language verdict, reasoning, and
+        recommendation — grounded in real sources, not a guess.</p>
+      </div>
+      <div class="flow-step">
+        <span class="step-num">6</span>
+        <h3>Everything is saved to your account</h3>
+        <p>Every chat turn on Ask FreshEye and the AI Agent is saved to
+        your account automatically. Revisit or continue any conversation
+        any time from <strong>History</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap about-section">
+    <h2>Two ways to get help</h2>
+    <p class="section-desc">Both are grounded in the same knowledge base —
+    pick based on whether you have a photo or just a question.</p>
+
+    <div class="surface-compare">
+      <div class="surface-card tag-agent">
+        <span class="tag">AI Agent</span>
+        <h3>Upload once, keep asking</h3>
+        <p>Upload a photo and the agent classifies it immediately, then
+        stays in the conversation. It remembers what item you're talking
+        about, so follow-ups like "is it still okay to use?" or "how
+        should I store it?" just work — no need to re-explain yourself.</p>
+        <ul>
+          <li>Best when you have a photo to inspect</li>
+          <li>Remembers the current item across the whole conversation</li>
+          <li>Can call tools: classify, search knowledge, generate advice</li>
+        </ul>
+      </div>
+      <div class="surface-card tag-chat">
+        <span class="tag">Ask FreshEye</span>
+        <h3>A direct line to the knowledge base</h3>
+        <p>No photo needed — just ask. Storage windows, spoilage signs,
+        what's still safe to eat, ideal fridge temperatures. Answers are
+        pulled straight from the same food-safety knowledge base the
+        vision pipeline uses.</p>
+        <ul>
+          <li>Best for general storage / food-safety questions</li>
+          <li>Fast, direct retrieval — no image required</li>
+          <li>Remembers recent turns in the same conversation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap about-section">
+    <h2>A typical user journey</h2>
+    <p class="section-desc">Put together, here's what using FreshEye AI
+    actually looks like end to end.</p>
+
+    <ol class="journey-list">
+      <li><strong>Sign up or log in</strong> — every other page requires this, so your work is always tied to your own account.</li>
+      <li><strong>Land on Inspect or AI Agent</strong> and upload a photo of the item you're unsure about.</li>
+      <li><strong>Get an instant read</strong> — label, confidence score, and a plain-language verdict (fresh / use soon / discard) with reasoning.</li>
+      <li><strong>Ask follow-ups</strong> on the AI Agent page — "can I still cook with this?", "how long will it keep in the fridge?" — without repeating what the item was.</li>
+      <li><strong>Switch to Ask FreshEye</strong> any time for a general question unrelated to a specific photo.</li>
+      <li><strong>Revisit History</strong> later to find a past conversation and pick up exactly where you left off, on either surface.</li>
+    </ol>
+  </section>
+
+  <section class="wrap about-cta">
+    <h2>Try it yourself</h2>
+    {% if current_user.is_authenticated %}
+      <p>You're already logged in as {{ current_user.name }}.</p>
+      <a href="{{ url_for('inspect_page') }}" class="btn btn-primary">Inspect a photo</a>
+      <a href="{{ url_for('chat_page') }}" class="btn btn-ghost">Ask FreshEye</a>
+    {% else %}
+      <p>Create a free account to start inspecting and saving your history.</p>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign up</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-ghost">Log in</a>
+    {% endif %}
+  </section>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tells the browser this page has its own light theme and should not be
+     auto-inverted by "force dark mode" browser features - that override is
+     what caused unreadable/invisible text in dark-on-dark or light-on-light
+     combinations. -->
+<meta name="color-scheme" content="light">
+<title>{% block title %}FreshEye AI{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="{{ url_for('inspect_page') }}" class="wordmark">FreshEye <span>AI</span></a>
+
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer">
+      <svg class="icon-burger" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" hidden><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="nav-drawer" id="navDrawer">
+      {% if current_user.is_authenticated %}
+      <nav class="main-nav">
+        <a href="{{ url_for('inspect_page') }}" class="nav-link {{ 'active' if active_page == 'inspect' else '' }}">Inspect</a>
+        <a href="{{ url_for('agent_page') }}" class="nav-link {{ 'active' if active_page == 'agent' else '' }}">AI Agent</a>
+        <a href="{{ url_for('chat_page') }}" class="nav-link {{ 'active' if active_page == 'chat' else '' }}">Ask FreshEye</a>
+        <a href="{{ url_for('history.history_page') }}" class="nav-link {{ 'active' if active_page == 'history' else '' }}">History</a>
+        <a href="{{ url_for('about_page') }}" class="nav-link {{ 'active' if active_page == 'about' else '' }}">About</a>
+      </nav>
+      {% else %}
+      <nav class="main-nav">
+        <a href="{{ url_for('about_page') }}" class="nav-link {{ 'active' if active_page == 'about' else '' }}">About</a>
+      </nav>
+      {% endif %}
+
+      <div class="status-chip" id="systemStatus">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">Checking systems…</span>
+      </div>
+
+      {% if current_user.is_authenticated %}
+      <div class="user-menu">
+        <span class="user-chip" title="{{ current_user.email }}">{{ current_user.name }}</span>
+        <a href="{{ url_for('auth.logout') }}" class="nav-link logout-link">Log out</a>
+      </div>
+      {% else %}
+      <div class="user-menu">
+        <a href="{{ url_for('auth.login') }}" class="nav-link {{ 'active' if active_page == 'login' else '' }}">Log in</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Sign up</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="wrap flash-wrap">
+    {% for category, message in messages %}
+    <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>FreshEye AI — YOLO classification + LangChain RAG advisor. Educational
+    guidance only; use your own judgment on borderline items.</p>
+  </div>
+</footer>
+
+<!-- Shared result-card template, used by the Inspect and AI Agent pages. -->
+<template id="resultTemplate">
+  <div class="result-card">
+    <div class="result-media">
+      <img class="result-thumb" alt="">
+    </div>
+    <div class="result-body">
+      <p class="result-filename"></p>
+      <div class="stamp-row">
+        <div class="stamp" data-verdict="">
+          <span class="stamp-text"></span>
+        </div>
+        <div class="stamp-meta">
+          <p class="predicted-label"></p>
+          <div class="confidence-track">
+            <div class="confidence-fill"></div>
+          </div>
+          <p class="confidence-label"></p>
+        </div>
+      </div>
+      <div class="advice-block">
+        <p class="advice-reasoning"></p>
+        <p class="advice-recommendation"></p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

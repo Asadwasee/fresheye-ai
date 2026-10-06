@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}FreshEye AI — AI Agent{% endblock %}
+{% block body_class %}page-agent{% endblock %}
+
+{% block content %}
+  <section class="agent-app wrap">
+    <div class="agent-head">
+      <p class="kicker">Autonomous inspection agent</p>
+      <h1>Upload once. Ask as many follow-ups as you like.</h1>
+      <p class="panel-desc">Upload a photo and the agent classifies it,
+      generates instructions and a confidence score immediately — then
+      stays in the conversation so you can ask follow-up questions about
+      that same item (how to store it, whether it's still okay to use,
+      what to do with a soft spot, and so on).</p>
+    </div>
+
+    <div class="agent-grid">
+      <div class="agent-col">
+        <div class="dropzone" id="agentDropzone">
+          <input type="file" id="agentImageInput" accept="image/*" hidden>
+          <div class="dropzone-inner" id="agentDropzoneInner">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <p><strong>Drop a photo</strong> or click to browse</p>
+            <p class="hint">One item at a time works best for follow-up questions</p>
+          </div>
+        </div>
+        <div class="dropzone-error" id="agentDropzoneError" hidden></div>
+        <div id="agentResultCol">
+          <div class="empty-state">
+            <p>Upload a photo to get an instant classification, confidence
+            score, and instructions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-col agent-chat-col">
+        <div class="agent-chat-header">
+          <p class="rail-label">Agent conversation</p>
+          <p class="agent-chat-sub" id="agentChatSub">Upload a photo to start — the agent will ground its answers in that item.</p>
+        </div>
+        <div class="chat-window agent-chat-window" id="agentChatWindow"></div>
+        <form class="chat-input-row" id="agentChatForm">
+          <input type="text" id="agentChatInput" placeholder="Ask a follow-up about this item…" autocomplete="off" disabled>
+          <button type="submit" class="btn btn-primary" id="agentChatSend" disabled>Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/agent.js') }}"></script>
+{% endblock %}

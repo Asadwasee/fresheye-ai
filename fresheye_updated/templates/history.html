@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}FreshEye AI — History{% endblock %}
+{% block body_class %}page-history{% endblock %}
+
+{% block content %}
+  <section class="wrap history-section">
+    <div class="inspect-head">
+      <h2>Your conversation history</h2>
+      <p class="panel-desc">Every conversation from Ask FreshEye and the
+      AI Agent, saved to your account. Click a conversation to expand it.</p>
+    </div>
+
+    <div class="history-tabs">
+      <button class="chip-btn history-filter active" data-type="all">All</button>
+      <button class="chip-btn history-filter" data-type="chat">Ask FreshEye</button>
+      <button class="chip-btn history-filter" data-type="agent">AI Agent</button>
+    </div>
+
+    <div id="historyList" class="history-list">
+      <p class="history-loading">Loading your conversations…</p>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}
